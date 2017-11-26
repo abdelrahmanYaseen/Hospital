@@ -2,13 +2,14 @@ package hospital;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * This class represents the patients who are treated in the hospital
  * @author yaseen
  *
  */
-public class Patient {
+public class Patient extends Person{
 	/**
 	 * The social security number.
 	 */
@@ -44,16 +45,32 @@ public class Patient {
 	 * @param bloodPressure The Blood Pressure of the patient.
 	 * @param medicalRecord All the medical records of the patient.
 	 */
-	public Patient(String ssn, String name, String gender, Date dateOfBirth, float bloodPressure,ArrayList<MedicalRecord> medicalRecord, Date firstVisitToHospital) {
-		this.ssn=ssn;
-		this.name=name;
-		this.gender=gender;
-		this.dateOfBirth=dateOfBirth;
-		this.bloodPressure=bloodPressure;
-		this.medicalRecords=medicalRecord;
-		this.firstVisitToHospital=firstVisitToHospital;
+	public Patient(String ssn, String name, String gender, Date dateOfBirth, String insuranceType, float bloodPressure,ArrayList<MedicalRecord> medicalRecord, Date firstVisitToHospital) {
+		super(ssn, name, gender, dateOfBirth, insuranceType);
+			this.bloodPressure=bloodPressure;
+			this.medicalRecords=medicalRecord;
+			this.firstVisitToHospital=firstVisitToHospital;
 	}
-
+	public Patient(HospitalManagementApplication h) {
+		super();
+		Scanner input = new Scanner(System.in);
+		String ssn;
+		boolean temp=true;//used to give error message if the ssn is already in use
+		do {
+			if(!temp) {
+				System.out.println("The SSN is already in use !");
+			}
+			System.out.print("Enter the SSN of the patient : ");
+			ssn = input.nextLine();
+			temp=false;
+		}while(h.isExist(ssn, "Patient"));
+		this.ssn=ssn;
+		System.out.print("Enter Blood Pressure of the patient : ");
+		this.bloodPressure=input.nextFloat();
+		System.out.print("Enter the date of first visit to hospital: ");
+		this.firstVisitToHospital = Util.requestDate();
+		this.medicalRecords = MedicalRecord.requestMedicalRecord(h);
+	}
 	/**
 	 * This method is used to retrieve a list of the medical records of the patient.
 	 * @return a list of all the Medical Records
@@ -82,7 +99,7 @@ public class Patient {
 	@Override
 	public String toString() {
 
-		return "----------------- Patient ----------------- " +"\n SSN : " + ssn +  "\n Name : " + name + "\n Gender : " + gender + "\n Date Of Birth : " + dateOfBirth +
+		return "----------------- Patient -----------------\n" + super.toString() +
 				"\n Blood Pressure : " + bloodPressure + "\n";
 	}
 	/**

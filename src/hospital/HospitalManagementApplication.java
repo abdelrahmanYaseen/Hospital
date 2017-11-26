@@ -4,13 +4,11 @@ package hospital;
  * <p>small Java application to manage a small private hospital. It aims to maintain information about patients, doctors and treatments given in this hospital</p>
  * 
  * @author yaseen 
- * @version 1.0
+ * @version 2.0
  
  */
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -29,6 +27,9 @@ public class HospitalManagementApplication {
 	 * This field is used to store all the patients with their information.
 	 */
 	public ArrayList<Patient> patients= new ArrayList<Patient>();
+	
+	public ArrayList<Nurse> nurses = new ArrayList<Nurse>();
+	
 /**
  * Displays the Menu for the user
  * @return integer value that represents the option which is chosen by the user.
@@ -51,13 +52,14 @@ public class HospitalManagementApplication {
 			System.out.println("(  9 ) Retrieve all the treatments");
 			System.out.println("( 10 ) Get treatments income");
 			System.out.println("( 11 ) Get budget status");
-			System.out.println("( 12 ) List All Patients");
+			System.out.println("( 12 ) List All Doctors");
 			System.out.println("( 13 ) List All Patients");
-			System.out.println("( 14 ) Exit");
+			System.out.println("( 14 ) List All Nurses");
+			System.out.println("( 15 ) Exit");
 			System.out.println("--------------------------");
 			System.out.print("Enter Option Number : ");
 			option = input.nextInt();
-			if (option > 0 && option < 13) {
+			if (option > 0 && option < 16) {
 				success=true;
 			} else {
 				System.out.println("Error");
@@ -70,35 +72,68 @@ public class HospitalManagementApplication {
  * This method is used to add a new doctor, by asking the user for the required attributes.
  *
  */
-	public  void addDoctor() {
+	
+	public void add() {
 		Scanner input = new Scanner(System.in);
-		
-		String ssn;
-		boolean temp=true;//used to give error message if the ssn is already in use
+		int option;
+		boolean temp=true;
 		do {
 			if(!temp) {
-				System.out.println("The SSN is already in use !");
+				System.out.println("Choose either 1, 2, or 3");
 			}
-			System.out.print("Enter the SSN of the doctor : ");
-			ssn = input.nextLine();
+			System.out.print("Enter 1 to add doctor, 2 to add a patient, 3 to add a nurse");
+			option = input.nextInt();
 			temp=false;
-		}while(this.isExist(ssn, "Doctor"));
+		}while(!((option==1)||(option==2)||(option==3)));
 		
-		System.out.print("Enter the name of the doctor : ");
-		String name = input.nextLine();
-		System.out.print("Enter the gender of the doctor : ");
-		String gender = input.nextLine();
-		System.out.print("Enter the date of birth of the patient (dd-MM-yyy) : ");
-		Date dateOfBirth=requestDate();
+		switch (option) {
+		case 1:
+				addDoctor();
+			break;
+		case 2:
+				addPatient();
+			break;
+		case 3 :
+				addNurse();
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	public void addDoctor() {
+
 		
-		Doctor doctor= new Doctor(ssn, name, gender, dateOfBirth);
+		Doctor doctor= new Doctor(this);
 		doctors.add(doctor);
 		System.out.println("Added successfully.");
-//		input.close();
 		
 	}
+	
+	public void addNurse() {
+
+		Nurse nurse = new Nurse(this);
+		nurses.add(nurse);
+		System.out.println("Added successfully.");
+		
+	}
+
+	
+	
+	/**
+	 * This method is used to add a new patient.
+	 * It asks the user to enter the necessary information.
+	 */
+	public void addPatient() {
+		Patient p = new Patient(this);
+		patients.add(p);
+	}
+	
+	
 	/**
 	 * 
+
 	 * @param ssn the ssn of the doctor/patient
 	 * @param type The type of the element of interest (doctor/patient)
 	 * @return true if the doctor/patient exist in the system. false otherwise.
@@ -114,44 +149,16 @@ public class HospitalManagementApplication {
 					if(patient.getSsn().equals(ssn))
 						return true;
 				}
+			} else if (type.equals("Nurse")) {
+				for (Nurse nurse: nurses) {
+					if(nurse.getSsn().equals(ssn))
+						return true;
+				}
 			}
-		return false;
+			return false;
 	}
 	
 	
-	/**
-	 * This method is used to add a new patient.
-	 * It asks the user to enter the necessary information.
-	 */
-	public void addPatient() {
-		Scanner input = new Scanner(System.in);
-		String ssn;
-		boolean temp=true;//used to give error message if the ssn is already in use
-		do {
-			if(!temp) {
-				System.out.println("The SSN is already in use !");
-			}
-			System.out.print("Enter the SSN of the patient : ");
-			ssn = input.nextLine();
-			temp=false;
-		}while(this.isExist(ssn, "Patient"));
-		
-		System.out.print("Enter the name of the patient : ");
-		String name = input.nextLine();
-		System.out.print("Enter the gender of the patient : ");
-		String gender = input.nextLine();
-		System.out.print("Enter the date of birth of the patient (dd-MM-yyy) : ");
-		//String dateOfBirth= input.nextLine();
-		Date dateOfBirth=requestDate();
-		System.out.print("Enter Blood Pressure of the patient : ");
-		float bloodPressure= input.nextFloat();
-		
-		ArrayList<MedicalRecord> medicalRecord = MedicalRecord.requestMedicalRecord(this);
-		Patient patient= new Patient(ssn, name, gender, dateOfBirth, bloodPressure, medicalRecord);
-		patients.add(patient);
-//		input.close();
-		
-	}
 /**
  * This method is used to delete a doctor.
  * It asks the user to provide the SSN number for the doctor who is needed to be deleted
@@ -238,41 +245,7 @@ public class HospitalManagementApplication {
 		System.out.println(patients);
 	}
 
-	/**
-	 * This method is used to create a Date object given the date in a string (with correct format)
-	 * @param dateString
-	 * @return Date object
-	 * @throws ParseException
-	 */
-	public Date createDate(String dateString) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy");
-		Date date= sdf.parse(dateString);
-		return date;
-	}
-
-	/**
-	 * This method is used to request a date from the user.
-	 * it makes sure that the user enters the date in an apropriate format.
-	 * @return Date object
-	 */
-	public Date requestDate(){
-		Scanner input = new Scanner(System.in);
-		String dateString;
-		
-		Date date;
-		while(true) {
-			try {
-				 dateString=input.nextLine();
-				 date =createDate(dateString);
-				break;
-			} catch (ParseException e) {
-				System.out.println("Bad date format, try again !");
-				continue;
-			}
-		}
-		return date;
-		
-	}
+	
 	/**
 	 * This method is used to display the latest medical record of a patient. 
 	 * it asks the user for the ssn of the patient of interest.
@@ -298,19 +271,20 @@ public class HospitalManagementApplication {
 	public static void main(String[] args) {
 		ArrayList<Doctor> doctors = new ArrayList<Doctor>();
 		ArrayList<Patient> patients = new ArrayList<Patient>();
-		new Populator(doctors, patients);
+		ArrayList<Nurse> nurses= new ArrayList<Nurse>();
+//		new Populator(doctors, patients);
 
 		HospitalManagementApplication H = new HospitalManagementApplication();
 		H.doctors = doctors;
 		H.patients = patients;
-		
+		H.nurses= nurses;
 		boolean run = true; 
 		while (run) {
 			int option = H.menu();
 			switch (option) {
 			case 1: {
-				H.addDoctor();
-			}
+						H.add();		
+				}
 				break;
 			case 2: {// delete a doctor
 				H.deleteDoctor();
@@ -391,6 +365,18 @@ public class HospitalManagementApplication {
 			}
 				break;
 			case 12: {
+				System.out.println(doctors);
+			}
+				break;
+			case 13: {
+				System.out.println(patients);
+			}
+				break;
+			case 14: {
+				System.out.println(nurses);
+			}
+				break;
+			case 15: {
 				run=false;
 			}
 				break;

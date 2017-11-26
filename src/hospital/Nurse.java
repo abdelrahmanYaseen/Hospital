@@ -1,6 +1,7 @@
 package hospital;
 
 import java.util.Date;
+import java.util.Scanner;
 
 public class Nurse extends Person implements Employee {
 	
@@ -15,6 +16,36 @@ public class Nurse extends Person implements Employee {
 		this.availableLeaveDays=availableLeaveDays;
 		this.departmentWorksIn=departmentWorksIn;
 		
+	}
+	public Nurse(HospitalManagementApplication h) {
+		super();
+		Scanner input = new Scanner(System.in);
+		String ssn;
+		boolean temp=true;//used to give error message if the ssn is already in use
+		do {
+			if(!temp) {
+				System.out.println("The SSN is already in use !");
+			}
+			System.out.print("Enter the SSN of the nurse : ");
+			ssn = input.nextLine();
+			temp=false;
+		}while(h.isExist(ssn, "Nurse"));
+		this.ssn=ssn;
+		
+		System.out.print("Enter in which department does this nurse work : ");
+		this.departmentWorksIn = input.nextLine();
+		this.availableLeaveDays=20;
+		this.salary = 100;
+		
+		
+	}
+	
+	@Override
+	public String toString() {
+		return "----------------- Nurse -----------------\n" + super.toString() 
+		+ "\nAvailabe leave days : " + availableLeaveDays +
+		"\n Salary :" + salary + "\n Department :" + 
+		departmentWorksIn;
 	}
 	
 	@Override

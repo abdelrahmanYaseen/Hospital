@@ -14,6 +14,8 @@ public class Treatment {
 	private String description;
 	private String medication;
 	private String doctorSSN;
+	private float cost;
+	private String type;
 	
 	/**
 	 * This method is used to construct a Treatment object.
@@ -22,11 +24,13 @@ public class Treatment {
 	 * @param medication The medication used.
 	 * @param the ssn of the supervising doctor.
 	 */
-	public Treatment(String details, String description,String medication,String doctorSSN) {
+	public Treatment(String details, String description,String medication,String doctorSSN, float cost, String type) {
 		this.details=details;
 		this.description=description;
 		this.medication=medication;
 		this.doctorSSN=doctorSSN;
+		this.cost=cost;
+		this.type=type;
 	}
 	
 	/**
@@ -60,8 +64,12 @@ public class Treatment {
 			String description = input.nextLine();
 			System.out.print("Enter the medication of the treatment: ");
 			String medication = input.nextLine();
+			System.out.print("Enter the cost of the treatment: ");
+			float cost = input.nextFloat();
+			System.out.print("Enter the type of the treatment: ");
+			String type = input.nextLine();
 			
-			treatments.add(new Treatment(details,description,medication,doctorSsn));
+			treatments.add(new Treatment(details,description,medication,doctorSsn,cost,type));
 			System.out.println("Enter 1 To add another Treatment to the current medical record, Or  any other key to finsh. Then press <enter> key");
 			again=input.nextInt()==1;
 		}

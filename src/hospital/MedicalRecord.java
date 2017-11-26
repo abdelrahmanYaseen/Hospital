@@ -63,7 +63,7 @@ public class MedicalRecord {
 		boolean again=true;
 		while(again && i<10) {
 			System.out.print("Enter the issueDate of the medical record :(dd-MM-yyy) ");
-			Date issueDate=H.requestDate();
+			Date issueDate=Util.requestDate();
 			ArrayList<Treatment> treatment = Treatment.requestTreatment(H);
 			medicalRecord.add(new MedicalRecord(issueDate,treatment));
 			System.out.println(" Enter 1 To add another medical record, Or any other key to finsh. Then press <enter>");
