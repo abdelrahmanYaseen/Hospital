@@ -40,18 +40,20 @@ public class HospitalManagementApplication {
 		while(!success) {
 			
 			System.out.println("--------------------------");
-			System.out.println("( 1 ) Add a doctor");
-			System.out.println("( 2 ) Delete a doctor");
-			System.out.println("( 3 ) Display Doctor Details");
-			System.out.println("( 4 ) Add Patient");
-			System.out.println("( 5 ) Delete Patient");
-			System.out.println("( 6 ) Display Patient Details");
-			System.out.println("( 7 ) Display Patient Treatment");
-			System.out.println("( 8 ) List All Doctors");
-			System.out.println("( 9 ) List All Patients");
-			System.out.println("( 10 ) Retrieve the latest medical record of patient");
-			System.out.println("( 11 ) Retrieve all the treatments");
-			System.out.println("( 12 ) Exit");
+			System.out.println("(  1 ) Add (Doctor,Patient,Nurse)");
+			System.out.println("(  2 ) Delete (Doctor,Patient,Nurse)");
+			System.out.println("(  3 ) Display Details (Doctor,Patient,Nurse)");
+			System.out.println("(  4 ) Display Patient Treatment");
+			System.out.println("(  5 ) Promote a junior doctor");
+			System.out.println("(  6 ) Display patient department");
+			System.out.println("(  7 ) Get available leave days");
+			System.out.println("(  8 ) Retrieve the latest medical record of patient");
+			System.out.println("(  9 ) Retrieve all the treatments");
+			System.out.println("( 10 ) Get treatments income");
+			System.out.println("( 11 ) Get budget status");
+			System.out.println("( 12 ) List All Patients");
+			System.out.println("( 13 ) List All Patients");
+			System.out.println("( 14 ) Exit");
 			System.out.println("--------------------------");
 			System.out.print("Enter Option Number : ");
 			option = input.nextInt();

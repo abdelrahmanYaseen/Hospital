@@ -34,7 +34,7 @@ public class Patient {
 	 */
 	private ArrayList<MedicalRecord> medicalRecords; 
 	
-	
+	private Date firstVisitToHospital;
 	/**
 	 * This method is used to construct a Patient Object.
 	 * @param ssn The social security number.
@@ -44,13 +44,14 @@ public class Patient {
 	 * @param bloodPressure The Blood Pressure of the patient.
 	 * @param medicalRecord All the medical records of the patient.
 	 */
-	public Patient(String ssn, String name, String gender, Date dateOfBirth, float bloodPressure,ArrayList<MedicalRecord> medicalRecord) {
+	public Patient(String ssn, String name, String gender, Date dateOfBirth, float bloodPressure,ArrayList<MedicalRecord> medicalRecord, Date firstVisitToHospital) {
 		this.ssn=ssn;
 		this.name=name;
 		this.gender=gender;
 		this.dateOfBirth=dateOfBirth;
 		this.bloodPressure=bloodPressure;
 		this.medicalRecords=medicalRecord;
+		this.firstVisitToHospital=firstVisitToHospital;
 	}
 
 	/**

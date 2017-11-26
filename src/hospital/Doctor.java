@@ -7,54 +7,43 @@ import java.util.Date;
  *  @author yaseen
  *
  */
-public class Doctor {
+public class Doctor extends Person implements Employee{
 
-	/**
-	 * The social security number
-	 */
-	private String ssn;
-	/**
-	 * The name of the doctor
-	 */
-	private String name;
-	/**
-	 * The gender of the doctor
-	 */
-	private String gender;
-	/**
-	 * The date of birth of the doctor
-	 */
-	private Date dateOfBirth;
 	
-	/**
-	 * This method is used to construct a Doctor Object
-	 * @param ssn The social security number
-	 * @param name The name of the doctor
-	 * @param gender The gender of the doctor
-	 * @param dateOfBirth The date of birth of the doctor
-	 */
-	public Doctor(String ssn,String name, String gender, Date dateOfBirth) {
-		this.ssn=ssn;
-		this.name=name;
-		this.gender=gender;
-		this.dateOfBirth=dateOfBirth;
-	}
+	private int availableLeaveDays;
+	private float salary;
 	
-	/**
-	 * This method is used to print the details of the doctor.
-	 */
-	@Override
-	public String toString() {
+	private String departmentWorksIn;
+	private String specialization;
+	
+
+	public Doctor(String ssn,String name, String gender,String insuranceType, Date dateOfBirth,int availableLeaveDays,float salary, String departmentWorksIn, String specialization) {
+		super(ssn,name,gender,dateOfBirth,insuranceType);
 		
-		return  "----------------- Doctor ----------------- " +"\nSSN : " + ssn +  "\nName : " + name + "\nGender : " + gender + "\nDate Of Birth : " 
-				+ dateOfBirth + "\n";
+		this.availableLeaveDays=availableLeaveDays;
+		this.salary=salary;
+		this.departmentWorksIn=departmentWorksIn;
+		this.specialization=specialization;
 	}
-	/**
-	 * This method is used to retrieve the SSN of the doctor.
-	 * @return the ssn.
-	 */
-	public String getSsn() {
-		return this.ssn;
+	
+	
+
+	@Override
+	public float salary() {
+
+		return salary;
+	}
+
+	@Override
+	public int annualLeaveLeft() {
+		// TODO Auto-generated method stub
+		return availableLeaveDays;
+	}
+
+	@Override
+	public void goAnnualLeave(int numberOfDays) {
+		if(availableLeaveDays-numberOfDays > 0)
+			availableLeaveDays-=numberOfDays;
 	}
 	
 	
