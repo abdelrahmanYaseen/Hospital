@@ -10,25 +10,7 @@ import java.util.Scanner;
  *
  */
 public class Patient extends Person{
-	/**
-	 * The social security number.
-	 */
-	private String ssn;
-	/**
-	 * The name of the patient.
-	 */
-	private String name;
-	/**
-	 * The gender of the patient.
-	 */
-	private String gender;
-	/**
-	 * The date of birth of the patient.
-	 */
-	private Date dateOfBirth;
-	/**
-	 * The Blood Pressure of the patient.
-	 */
+
 	private float bloodPressure;
 	/**
 	 * All the medical records of the patient.
@@ -63,10 +45,10 @@ public class Patient extends Person{
 			System.out.print("Enter the SSN of the patient : ");
 			ssn = input.nextLine();
 			temp=false;
-		}while(h.isExist(ssn, "Patient"));
-		this.ssn=ssn;
+		}while(h.isExist(ssn, "Patient")!=null);
+		super.ssn=ssn;
 		System.out.print("Enter Blood Pressure of the patient : ");
-		this.bloodPressure=input.nextFloat();
+		this.bloodPressure=Float.parseFloat(input.nextLine());
 		System.out.print("Enter the date of first visit to hospital: ");
 		this.firstVisitToHospital = Util.requestDate();
 		this.medicalRecords = MedicalRecord.requestMedicalRecord(h);
@@ -138,6 +120,16 @@ public class Patient extends Person{
 			}
 		}
 		return tmp;
+	}
+	
+	public String getDepartment(HospitalManagementApplication h) {
+		ArrayList<Treatment> treatments=getLatestMedicalRecord().getTreatments();
+		Treatment lastTreatment =treatments.get(treatments.size()-1);
+		String doctorSsn = lastTreatment.getDoctorSSN();
+		Doctor d = (Doctor)h.isExist(doctorSsn,"Doctor");
+		
+		//HEEREEE , RETURNS NULL !!!!! Exception
+		return d.getDepartmentWorksIn();
 	}
 
 	

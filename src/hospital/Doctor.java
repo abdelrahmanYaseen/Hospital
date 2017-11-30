@@ -13,9 +13,21 @@ public class Doctor extends Person implements Employee{
 	
 	private int availableLeaveDays;
 	private float salary;
-	
 	private String departmentWorksIn;
 	private String specialization;
+	
+	/**
+	 * @param availableLeaveDays the availableLeaveDays to set
+	 */
+	public void setAvailableLeaveDays(int availableLeaveDays) {
+		this.availableLeaveDays = availableLeaveDays;
+	}
+	/**
+	 * @param salary the salary to set
+	 */
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
 	
 
 	public Doctor(String ssn,String name, String gender,String insuranceType, Date dateOfBirth,int availableLeaveDays,float salary, String departmentWorksIn, String specialization) {
@@ -38,23 +50,24 @@ public class Doctor extends Person implements Employee{
 			System.out.print("Enter the SSN of the doctor : ");
 			ssn = input.nextLine();
 			temp=false;
-		}while(h.isExist(ssn, "Doctor"));
+		}while(h.isExist(ssn, "Doctor")!=null);
 		this.ssn=ssn;
 		System.out.print("Enter in which department does this doctor work : ");
 		this.departmentWorksIn = input.nextLine();
 		System.out.print("Enter the specialization of the doctor : ");
 		this.specialization = input.nextLine();
 		this.availableLeaveDays=25;
-		this.salary = 100;
+		System.out.print("Enter the salary of this doctor : ");
+		this.salary = Float.parseFloat(input.nextLine());
 	}
 	@Override
 	public String toString() {
 		
 		return "----------------- Doctor-----------------\n" +
-		super.toString() + "\nAvailabe leave days : "+ 
+		super.toString() + "\n Availabe leave days : "+ 
 		availableLeaveDays +"\n Salary :" + salary + 
 		"\n Department :" + departmentWorksIn +
-		"\nSpecialization :"+specialization;
+		"\n Specialization :"+specialization;
 	}
 
 	@Override
@@ -73,6 +86,30 @@ public class Doctor extends Person implements Employee{
 	public void goAnnualLeave(int numberOfDays) {
 		if(availableLeaveDays-numberOfDays > 0)
 			availableLeaveDays-=numberOfDays;
+	}
+	/**
+	 * @return the availableLeaveDays
+	 */
+	public int getAvailableLeaveDays() {
+		return availableLeaveDays;
+	}
+	/**
+	 * @return the salary
+	 */
+	public float getSalary() {
+		return salary;
+	}
+	/**
+	 * @return the departmentWorksIn
+	 */
+	public String getDepartmentWorksIn() {
+		return departmentWorksIn;
+	}
+	/**
+	 * @return the specialization
+	 */
+	public String getSpecialization() {
+		return specialization;
 	}
 	
 	

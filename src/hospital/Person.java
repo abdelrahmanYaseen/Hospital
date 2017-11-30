@@ -1,17 +1,14 @@
 package hospital;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
 public abstract class Person {
 	
 	protected String ssn; 
-	private String name; 
-	private String gender; 
-	private Date dateOfBirth; 
-	private String insuranceType;
+	protected String name; 
+	protected String gender; 
+	protected Date dateOfBirth; 
+	protected String insuranceType;
 	public Person(String ssn,String name, String gender, Date dateOfBirth, String insuranceType) {
 		this.ssn=ssn;
 		this.name=name;

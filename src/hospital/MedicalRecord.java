@@ -29,6 +29,12 @@ public class MedicalRecord {
 	private ArrayList<Treatment> treatments;
 	
 	/**
+	 * @return the treatments
+	 */
+	public ArrayList<Treatment> getTreatments() {
+		return treatments;
+	}
+	/**
 	 * This method is used to construct a Medical Record object.
 	 * @param issueDate The date that the record is issued.
 	 * @param treatments The treatments that the patient has got.
@@ -67,7 +73,7 @@ public class MedicalRecord {
 			ArrayList<Treatment> treatment = Treatment.requestTreatment(H);
 			medicalRecord.add(new MedicalRecord(issueDate,treatment));
 			System.out.println(" Enter 1 To add another medical record, Or any other key to finsh. Then press <enter>");
-			again=input.nextInt()==1;
+			again=Integer.parseInt(input.nextLine())==1;
 		}
 		
 		//input.close();

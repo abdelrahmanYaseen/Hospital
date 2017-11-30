@@ -14,8 +14,16 @@ public class Treatment {
 	private String description;
 	private String medication;
 	private String doctorSSN;
+
 	private float cost;
 	private String type;
+	
+	/**
+	 * @return the doctorSSN
+	 */
+	public String getDoctorSSN() {
+		return doctorSSN;
+	}
 	
 	/**
 	 * This method is used to construct a Treatment object.
@@ -31,6 +39,23 @@ public class Treatment {
 		this.doctorSSN=doctorSSN;
 		this.cost=cost;
 		this.type=type;
+	}
+	public Treatment(HospitalManagementApplication H) {
+		Scanner input = new Scanner(System.in);
+		int i=0;
+		String doctorSsn;
+		System.out.print("Enter the SSN of the supervising doctor: ");
+		doctorSsn=Util.requestDoctorSsn(H);
+		System.out.print("Enter the details of the treatment: ");
+		this.details = input.nextLine();
+		System.out.print("Enter the description of the treatment: ");
+		this.description = input.nextLine();
+		System.out.print("Enter the medication of the treatment: ");
+		this.medication = input.nextLine();
+		System.out.print("Enter the cost of the treatment: ");
+		this.cost = Float.parseFloat(input.nextLine());
+		System.out.print("Enter the type of the treatment: ");
+		this.type = input.nextLine();
 	}
 	
 	/**
@@ -52,26 +77,10 @@ public class Treatment {
 		ArrayList<Treatment> treatments = new ArrayList<Treatment>();
 		int i=0;
 		boolean again=true;
-		String doctorSsn;
-		while(again && i<10) {
-			do {
-				System.out.print("Enter the SSN of the supervising doctor: ");
-				doctorSsn = input.nextLine();
-			}while(!H.isExist(doctorSsn,"Doctor"));
-			System.out.print("Enter the details of the treatment: ");
-			String details = input.nextLine();
-			System.out.print("Enter the description of the treatment: ");
-			String description = input.nextLine();
-			System.out.print("Enter the medication of the treatment: ");
-			String medication = input.nextLine();
-			System.out.print("Enter the cost of the treatment: ");
-			float cost = input.nextFloat();
-			System.out.print("Enter the type of the treatment: ");
-			String type = input.nextLine();
-			
-			treatments.add(new Treatment(details,description,medication,doctorSsn,cost,type));
-			System.out.println("Enter 1 To add another Treatment to the current medical record, Or  any other key to finsh. Then press <enter> key");
-			again=input.nextInt()==1;
+		while(again && i++<10) {
+			treatments.add(new Treatment(H));
+			System.out.println("Enter 1 To add another Treatment to the current medical record\n Or  any other key to finsh. Then press <enter> key");
+			again=Integer.parseInt(input.nextLine())==1;
 		}
 //		input.close();
 		return treatments;

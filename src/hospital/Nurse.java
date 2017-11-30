@@ -29,7 +29,7 @@ public class Nurse extends Person implements Employee {
 			System.out.print("Enter the SSN of the nurse : ");
 			ssn = input.nextLine();
 			temp=false;
-		}while(h.isExist(ssn, "Nurse"));
+		}while(h.isExist(ssn, "Nurse")!=null);
 		this.ssn=ssn;
 		
 		System.out.print("Enter in which department does this nurse work : ");
@@ -43,7 +43,7 @@ public class Nurse extends Person implements Employee {
 	@Override
 	public String toString() {
 		return "----------------- Nurse -----------------\n" + super.toString() 
-		+ "\nAvailabe leave days : " + availableLeaveDays +
+		+ "\n Availabe leave days : " + availableLeaveDays +
 		"\n Salary :" + salary + "\n Department :" + 
 		departmentWorksIn;
 	}

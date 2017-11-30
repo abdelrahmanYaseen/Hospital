@@ -43,4 +43,18 @@ public class Util {
 		
 	}
 	
+	public static String requestDoctorSsn(HospitalManagementApplication h) {
+		Scanner input = new Scanner(System.in);
+		boolean valid = false;
+		String ssn;
+		while(!valid) {
+			ssn=input.nextLine();
+			if(h.isExist(ssn, "Doctor")!=null) {
+				return ssn;
+			}
+			System.out.println("Not found, Try again :");
+		}
+		return null;
+	}
+	
 }

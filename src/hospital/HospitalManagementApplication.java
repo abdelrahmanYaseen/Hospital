@@ -10,7 +10,6 @@ package hospital;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -65,7 +64,7 @@ public class HospitalManagementApplication {
 				System.out.println("Error");
 			}
 		}
-		//input.close();
+//		input.close();
 		return option;
 	}
 /**
@@ -82,7 +81,7 @@ public class HospitalManagementApplication {
 				System.out.println("Choose either 1, 2, or 3");
 			}
 			System.out.print("Enter 1 to add doctor, 2 to add a patient, 3 to add a nurse");
-			option = input.nextInt();
+			option = Integer.parseInt(input.nextLine());
 			temp=false;
 		}while(!((option==1)||(option==2)||(option==3)));
 		
@@ -100,13 +99,93 @@ public class HospitalManagementApplication {
 		default:
 			break;
 		}
+//		input.close();
+	}
+	
+	public void delete() {
+		Scanner input = new Scanner(System.in);
+		int option;
+		boolean temp=true;
+		do {
+			if(!temp) {
+				System.out.println("Choose either 1, 2, or 3");
+			}
+			System.out.print("Enter 1 to delete doctor, 2 to delete a patient, 3 to delete a nurse");
+			option = Integer.parseInt(input.nextLine());
+			temp=false;
+		}while(!((option==1)||(option==2)||(option==3)));
+		
+		switch (option) {
+		case 1:
+				deleteDoctor();
+			break;
+		case 2:
+				deletePatient();
+			break;
+		case 3 :
+				deleteNurse();
+			break;
+
+		default:
+			break;
+		}
+//		input.close();
+	}
+	
+	public void details() {
+		Scanner input = new Scanner(System.in);
+		int option;
+		boolean temp=true;
+		do {
+			if(!temp) {
+				System.out.println("Choose either 1, 2, or 3");
+			}
+			System.out.print("Enter 1 to display the details of doctor, 2 for patient, 3 for nurse");
+			option = Integer.parseInt(input.nextLine());
+			temp=false;
+		}while(!((option==1)||(option==2)||(option==3)));
+		
+		String ssn;
+		switch (option) {
+		case 1:
+			System.out.print("Enter the SSN : ");
+			
+			ssn = input.nextLine();
+			System.out.println(getDoctorDetails(ssn));
+			break;
+		case 2:
+			System.out.print("Enter the SSN : ");
+			ssn = input.nextLine();
+			System.out.println(getPatientDetails(ssn));
+			break;
+		case 3 :
+			System.out.print("Enter the SSN : ");
+			ssn = input.nextLine();
+			System.out.println(getNurseDetails(ssn));
+			break;
+
+		default:
+			break;
+		}
+//		input.close();
 	}
 	
 	public void addDoctor() {
 
-		
+		Scanner input = new Scanner(System.in);
 		Doctor doctor= new Doctor(this);
-		doctors.add(doctor);
+		
+		System.out.println("Is this a senior or junior ? (S/J) Default is Senior");
+		String option=input.nextLine();
+		switch (option) {
+		case "J":
+				doctors.add(new Junior(doctor,this));
+			break; 
+		default:
+			doctors.add(new Senior(doctor));
+			break;
+		}
+		//doctors.add(doctor);
 		System.out.println("Added successfully.");
 		
 	}
@@ -125,6 +204,7 @@ public class HospitalManagementApplication {
 	 * This method is used to add a new patient.
 	 * It asks the user to enter the necessary information.
 	 */
+	
 	public void addPatient() {
 		Patient p = new Patient(this);
 		patients.add(p);
@@ -138,24 +218,34 @@ public class HospitalManagementApplication {
 	 * @param type The type of the element of interest (doctor/patient)
 	 * @return true if the doctor/patient exist in the system. false otherwise.
 	 */
-	public   boolean isExist(String ssn,String type){
+	public  Object isExist(String ssn,String type){
 			if(type.equals("Doctor")) {
 				for (Doctor doctor : doctors) {
 					if(doctor.getSsn().equals(ssn))
-						return true;
+						return doctor;
 				}
-			} else if (type.equals("Patient")) {
+			}else if (type.equals("Senior")) {
+				for (Doctor doctor : doctors) {
+					if(doctor.getSsn().equals(ssn) && (doctor instanceof Senior))
+						return doctor;
+				}
+			}else if (type.equals("Junior")) {
+				for (Doctor doctor : doctors) {
+					if(doctor.getSsn().equals(ssn) && (doctor instanceof Junior))
+						return doctor;
+				}
+			}else if (type.equals("Patient")) {
 				for (Patient patient : patients) {
 					if(patient.getSsn().equals(ssn))
-						return true;
+						return patient;
 				}
 			} else if (type.equals("Nurse")) {
 				for (Nurse nurse: nurses) {
 					if(nurse.getSsn().equals(ssn))
-						return true;
+						return nurse;
 				}
 			}
-			return false;
+			return null;
 	}
 	
 	
@@ -187,8 +277,26 @@ public class HospitalManagementApplication {
 		System.out.print("Enter the SSN of the patient : ");
 		String ssn = input.nextLine();
 		for(Patient d : patients) {
-			if(d.getSsn()==ssn)
+			if(d.getSsn().equals(ssn)) {
 				patients.remove(d);
+				System.out.println("Deleted");
+				return;
+			}
+		}
+//		input.close();
+		System.out.println("Not Found");
+	}
+	
+	public  void deleteNurse() {
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter the SSN of the nurse : ");
+		String ssn = input.nextLine();
+		for(Nurse d : nurses) {
+			if(d.getSsn().equals(ssn)) {
+				nurses.remove(d);
+				System.out.println("Deleted");
+				return;
+			}
 		}
 //		input.close();
 		System.out.println("Not Found");
@@ -219,6 +327,15 @@ public class HospitalManagementApplication {
 		}
 		return "Not Found";
 	}
+
+	public String getNurseDetails(String ssn) {
+		for(Nurse d : nurses) {
+			if(d.getSsn().equals(ssn))
+				return d.toString();
+		}
+		return "Not Found";
+	}
+	
 	/**
 	 * This method is used to retrieve the treatments of the patient given the ssn
 	 * @param ssn
@@ -274,6 +391,7 @@ public class HospitalManagementApplication {
 		ArrayList<Nurse> nurses= new ArrayList<Nurse>();
 //		new Populator(doctors, patients);
 
+		Scanner input = new Scanner(System.in);
 		HospitalManagementApplication H = new HospitalManagementApplication();
 		H.doctors = doctors;
 		H.patients = patients;
@@ -286,50 +404,16 @@ public class HospitalManagementApplication {
 						H.add();		
 				}
 				break;
-			case 2: {// delete a doctor
-				H.deleteDoctor();
+			case 2: {
+				H.delete();
 			}
 				break;
-			case 3: {// display doc details
-				Scanner input = new Scanner(System.in);
-				System.out.print("Enter the SSN : ");
-				String ssn = input.nextLine();
-				System.out.println(H.getDoctorDetails(ssn));
-//				input.close();
+			case 3: {
+				H.details();
 			}
 				break;
-			case 4: {// add patient
-				H.addPatient();
-				System.out.println("Added");
-			}
-				break;
-			case 5: {// delete patient
-				Scanner input = new Scanner(System.in);
-				System.out.print("Enter the SSN : ");
-				String ssn = input.nextLine();
-				boolean found=false;
-				for (Patient d : patients) {
-					if (d.getSsn().equals(ssn)) {
-						H.patients.remove(d);
-						System.out.println("Deleted");
-						found=true;
-						break;
-					}
-				}
-				if(!found)System.out.println("Not Found");
-//				input.close();
-			}
-				break;
-			case 6: {// display patient details
-				Scanner input = new Scanner(System.in);
-				System.out.print("Enter the SSN : ");
-				String ssn = input.nextLine();
-				System.out.println(H.getPatientDetails(ssn));
-//				input.close();
-			}
-				break;
-			case 7: {// diaplay patient treatment
-				Scanner input = new Scanner(System.in);
+			case 4: {
+//				Scanner input = new Scanner(System.in);
 				System.out.print("Enter the SSN : ");
 				boolean found=false;
 				String ssn = input.nextLine();
@@ -340,7 +424,36 @@ public class HospitalManagementApplication {
 					}
 				}
 				if(!found)System.out.println("Not Found");
-				// input.close();
+				
+				
+				
+			}
+				break;
+			case 5: {// Promote Junior to Senior
+//				Scanner input = new Scanner(System.in);
+				System.out.println("Enter the ssn of the junior doctor to promote:");
+				String ssn = input.nextLine();
+				Doctor d;
+				if((d=(Doctor) H.isExist(ssn,"Junior"))!=null) {
+					doctors.add(new Senior(d));
+					doctors.remove(d);
+					System.out.println("Promoted successfully.");
+				}
+			}
+				break;
+			case 6: {// display patient department ( dep of latest treatment )
+				System.out.println("Enter the ssn of the patient :");
+				String ssn=input.nextLine();
+				Patient p;
+				if((p=(Patient)H.isExist(ssn, "Patient"))!=null) {
+					System.out.println(p.getDepartment(H));
+				} else {
+					System.out.println("Not found");
+				}
+			}
+				break;
+			case 7: {// diaplay patient treatment
+				
 			}
 				break;
 			case 8: {
@@ -382,6 +495,7 @@ public class HospitalManagementApplication {
 				break;
 
 			default:
+				input.close();
 				break;
 			}
 		}
