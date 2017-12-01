@@ -43,9 +43,8 @@ public class Treatment {
 	public Treatment(HospitalManagementApplication H) {
 		Scanner input = new Scanner(System.in);
 		int i=0;
-		String doctorSsn;
 		System.out.print("Enter the SSN of the supervising doctor: ");
-		doctorSsn=Util.requestDoctorSsn(H);
+		this.doctorSSN=Util.requestDoctorSsn(H);
 		System.out.print("Enter the details of the treatment: ");
 		this.details = input.nextLine();
 		System.out.print("Enter the description of the treatment: ");
@@ -63,7 +62,9 @@ public class Treatment {
 	 */
 	@Override
 	public String toString() {
-		return "\nSupervising doctor SSN :"+doctorSSN+"\n Details : \"" + details +"\"\n Description :\"" +description+"\"\n Medication :\""+medication+"\"\n";
+		return "\n Supervising doctor SSN :"+doctorSSN+"\n Details : \"" + 
+				details +"\"\n Description :\"" +description+"\"\n Medication :\""
+				+medication+"\n Cost :"+cost+"\n Type :"+type;
 	}
 
 	/**
@@ -84,6 +85,10 @@ public class Treatment {
 		}
 //		input.close();
 		return treatments;
+	}
+
+	public float getCost() {
+		return this.cost;
 	}
 	
 	

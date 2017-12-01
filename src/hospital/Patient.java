@@ -7,7 +7,6 @@ import java.util.Scanner;
 /**
  * This class represents the patients who are treated in the hospital
  * @author yaseen
- *
  */
 public class Patient extends Person{
 
@@ -89,7 +88,7 @@ public class Patient extends Person{
 	 * @return
 	 */
 	public String getSsn() {
-		return this.ssn;
+		return this .ssn;
 	}
 	
 	/**
@@ -127,8 +126,6 @@ public class Patient extends Person{
 		Treatment lastTreatment =treatments.get(treatments.size()-1);
 		String doctorSsn = lastTreatment.getDoctorSSN();
 		Doctor d = (Doctor)h.isExist(doctorSsn,"Doctor");
-		
-		//HEEREEE , RETURNS NULL !!!!! Exception
 		return d.getDepartmentWorksIn();
 	}
 

@@ -385,11 +385,23 @@ public class HospitalManagementApplication {
 		return null;
 	}
 	
+	public float getTreatmentsIncome() {
+		float result=0;
+		for (Patient p : patients) {
+			for (MedicalRecord m : p.getMedicalRecords()) {
+				for (Treatment t : m.getTreatments()) {
+					result+=t.getCost();
+				}
+			}
+		}
+		
+		return result;
+	}
 	public static void main(String[] args) {
 		ArrayList<Doctor> doctors = new ArrayList<Doctor>();
 		ArrayList<Patient> patients = new ArrayList<Patient>();
 		ArrayList<Nurse> nurses= new ArrayList<Nurse>();
-//		new Populator(doctors, patients);
+		new Populator(doctors, patients,nurses);
 
 		Scanner input = new Scanner(System.in);
 		HospitalManagementApplication H = new HospitalManagementApplication();
@@ -401,8 +413,8 @@ public class HospitalManagementApplication {
 			int option = H.menu();
 			switch (option) {
 			case 1: {
-						H.add();		
-				}
+				H.add();		
+			}
 				break;
 			case 2: {
 				H.delete();
@@ -424,9 +436,6 @@ public class HospitalManagementApplication {
 					}
 				}
 				if(!found)System.out.println("Not Found");
-				
-				
-				
 			}
 				break;
 			case 5: {// Promote Junior to Senior
@@ -452,29 +461,38 @@ public class HospitalManagementApplication {
 				}
 			}
 				break;
-			case 7: {// diaplay patient treatment
-				
+			case 7: {
+				int result;
+				if((result = H.getLeaveDays())!=-1)
+					System.out.println(result+" days left\n");
+				else
+					System.out.println("Not found");
 			}
 				break;
 			case 8: {
-				System.out.println(doctors);
+				MedicalRecord result = H.requestLatestMedicalRecord();
+				if(result!=null)
+				System.out.println(result);
 			}
 				break;
 			case 9: {
-				System.out.println(patients);
-			}
-				break;
-			case 10: {
-				MedicalRecord result = H.requestLatestMedicalRecord();
-				if(result!=null)
-					System.out.println(result);
-			}
-				break;
-			case 11: {
 				for (Patient patient : patients) {
 					System.out.println(patient);
 					System.out.println(patient.getMedicalRecords());
 				}
+			}
+				break;
+			case 10: {	//Get treatments income
+				System.out.println("The total treatments income : "+ H.getTreatmentsIncome());
+			}
+				break;
+			case 11: {
+				float totalSalaries=0;
+				for (Doctor d : doctors) {
+					totalSalaries+=d.getSalary();
+				}
+				
+				float delta = H.getTreatmentsIncome()-totalSalaries;
 			}
 				break;
 			case 12: {
@@ -500,6 +518,42 @@ public class HospitalManagementApplication {
 			}
 		}
 		// System.out.println(patients);
+	}
+	public int getLeaveDays() {
+		Scanner input = new Scanner(System.in);
+		int option;
+		boolean temp=true;
+		do {
+			if(!temp) {
+				System.out.println("Choose either 1, or 2");
+			}
+			System.out.print("Enter 1 to display the details of doctor, 2 for nurse");
+			option = Integer.parseInt(input.nextLine());
+			temp=false;
+		}while(!((option==1)||(option==2)));
+		
+		String ssn;
+		switch (option) {
+		case 1:
+			System.out.println("Enter the ssn of the doctor");
+			ssn = input.nextLine();
+			Doctor d= (Doctor) isExist(ssn, "Doctor");
+			if(d!=null) {
+				return d.annualLeaveLeft();
+			} else {
+				return -1;
+			}
+		case 2:
+			System.out.println("Enter the ssn of the nurse");
+			ssn = input.nextLine();
+			Nurse n= (Nurse) isExist(ssn, "Nurse");
+			if(n!=null) {
+				return n.annualLeaveLeft();
+			} else {
+				return -1;
+			}
+		}
+		return -1;
 	}
 	
 

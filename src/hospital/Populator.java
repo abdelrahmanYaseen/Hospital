@@ -16,7 +16,7 @@ public class Populator {
 	 * @param doctors
 	 * @param patients
 	 */
-	public  Populator(ArrayList<Doctor> doctors,ArrayList<Patient> patients) {
+	public  Populator(ArrayList<Doctor> doctors,ArrayList<Patient> patients,ArrayList<Nurse> nurses) {
 		
 		Date  date = null;
 		try {
@@ -25,13 +25,22 @@ public class Populator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-//		doctors.add(new Doctor("2175578","Yaseen","M",date));
-//		doctors.add(new Doctor("2589985","Amairi","M",date));
-//		doctors.add(new Doctor("1478875","Elosta","M",date));
-//		doctors.add(new Doctor("7855554","Randomiana","F",date));
-//		doctors.add(new Doctor("3698857","Derwish","M",date));
-//		
+		Doctor d = new Doctor("1","Yaseen","Male","Full",date,25,300000,"Nero","Neroscience");
+		Senior s = new Senior(d,"Employment History sample 1");
+		doctors.add(s);
+		d = new Doctor("2","Amairi","Male","Partial",date,15,100000,"Arms","ArmScience");
+		Junior j = new Junior(d,date,date,"1");
+		doctors.add(j);
+		ArrayList<Treatment> ta = new ArrayList<Treatment>();
+		Treatment t = new Treatment("Some details", "A describtive description", "some medication", "1", 2500, "Must");
+		ta.add(t);
+		MedicalRecord m = new MedicalRecord(date, ta);
+		ArrayList<MedicalRecord> ma = new ArrayList<MedicalRecord>();
+		ma.add(m);
+		Patient p = new Patient("3", "Darwish", "male", date, "full", 25, ma, date);
+		patients.add(p);
+		Nurse n = new Nurse("4", "Berna", "Female", date, "Full", 250000, 25, "Nursing");
+		nurses.add(n);
 //		ArrayList<Treatment> tmpT = new ArrayList<Treatment>();
 //		tmpT.add(new Treatment("Hyperkalemia","Hyperkalemia can be difficult to diagnose clinically because symptoms may be vague or absent. ","Calcium (either gluconate or chloride): Reduces the risk of ventricular fibrillation caused by hyperkalemia.","2175578"));
 //		tmpT.add(new Treatment("Anemia","Treatment for this form of anemia usually involves taking iron supplements and making changes to your diet.","If the underlying cause of iron deficiency is loss of blood — other than from menstruation ","2175578"));
