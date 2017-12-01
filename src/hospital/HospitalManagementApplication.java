@@ -15,19 +15,18 @@ import java.util.Scanner;
 /**
  * This is the main class. 
  * It maintains all the system. 
- *
  */
 public class HospitalManagementApplication {
 	/**
 	 * This field is used to store all the doctors.
 	 */
-	public ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+	public ArrayList<Person> doctors = new ArrayList<Person>();
 	/**
 	 * This field is used to store all the patients with their information.
 	 */
-	public ArrayList<Patient> patients= new ArrayList<Patient>();
+	public ArrayList<Person> patients= new ArrayList<Person>();
 	
-	public ArrayList<Nurse> nurses = new ArrayList<Nurse>();
+	public ArrayList<Person> nurses = new ArrayList<Person>();
 	
 /**
  * Displays the Menu for the user
@@ -220,27 +219,27 @@ public class HospitalManagementApplication {
 	 */
 	public  Object isExist(String ssn,String type){
 			if(type.equals("Doctor")) {
-				for (Doctor doctor : doctors) {
+				for (Person doctor : doctors) {
 					if(doctor.getSsn().equals(ssn))
 						return doctor;
 				}
 			}else if (type.equals("Senior")) {
-				for (Doctor doctor : doctors) {
+				for (Person doctor : doctors) {
 					if(doctor.getSsn().equals(ssn) && (doctor instanceof Senior))
 						return doctor;
 				}
 			}else if (type.equals("Junior")) {
-				for (Doctor doctor : doctors) {
+				for (Person doctor : doctors) {
 					if(doctor.getSsn().equals(ssn) && (doctor instanceof Junior))
 						return doctor;
 				}
 			}else if (type.equals("Patient")) {
-				for (Patient patient : patients) {
+				for (Person patient : patients) {
 					if(patient.getSsn().equals(ssn))
 						return patient;
 				}
 			} else if (type.equals("Nurse")) {
-				for (Nurse nurse: nurses) {
+				for (Person nurse: nurses) {
 					if(nurse.getSsn().equals(ssn))
 						return nurse;
 				}
@@ -257,7 +256,7 @@ public class HospitalManagementApplication {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter the SSN of the doctor : ");
 		String ssn = input.nextLine();
-		for(Doctor d : doctors) {
+		for(Person d : doctors) {
 			if(d.getSsn().equals(ssn)) {
 				doctors.remove(d);
 				System.out.println("Deleted");
@@ -276,7 +275,7 @@ public class HospitalManagementApplication {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter the SSN of the patient : ");
 		String ssn = input.nextLine();
-		for(Patient d : patients) {
+		for(Person d : patients) {
 			if(d.getSsn().equals(ssn)) {
 				patients.remove(d);
 				System.out.println("Deleted");
@@ -291,7 +290,7 @@ public class HospitalManagementApplication {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter the SSN of the nurse : ");
 		String ssn = input.nextLine();
-		for(Nurse d : nurses) {
+		for(Person d : nurses) {
 			if(d.getSsn().equals(ssn)) {
 				nurses.remove(d);
 				System.out.println("Deleted");
@@ -309,7 +308,7 @@ public class HospitalManagementApplication {
 	 */
 	public  String getDoctorDetails(String ssn) {
 		
-		for(Doctor d : doctors) {
+		for(Person d : doctors) {
 			if(d.getSsn().equals(ssn))
 				return d.toString();
 		}
@@ -321,7 +320,7 @@ public class HospitalManagementApplication {
  * @return a string of the details of the patient if it is found.
  */
 	public String getPatientDetails(String ssn) {
-		for(Patient d : patients) {
+		for(Person d : patients) {
 			if(d.getSsn().equals(ssn))
 				return d.toString();
 		}
@@ -329,7 +328,7 @@ public class HospitalManagementApplication {
 	}
 
 	public String getNurseDetails(String ssn) {
-		for(Nurse d : nurses) {
+		for(Person d : nurses) {
 			if(d.getSsn().equals(ssn))
 				return d.toString();
 		}
@@ -342,9 +341,9 @@ public class HospitalManagementApplication {
 	 * @return
 	 */
 	public String getPatientTreatment(String ssn) {
-		for(Patient d : patients) {
+		for(Person d : patients) {
 			if(d.getSsn().equals(ssn))
-				return d.getMedicalRecords().toString();
+				return ((Patient) d).getMedicalRecords().toString();
 		}
 		return "Not Found";
 	}
@@ -373,10 +372,10 @@ public class HospitalManagementApplication {
 		System.out.println("Enter the SSN of the patient : ");
 		String ssn=scanner.nextLine();
 		boolean found = false;
-		for (Patient patient : patients) {
+		for (Person patient : patients) {
 			if(patient.getSsn().equals(ssn)) {
 				found = true;
-				return patient.getLatestMedicalRecord();
+				return ((Patient) patient).getLatestMedicalRecord();
 			} 
 		}
 		if(!found) {
@@ -387,8 +386,8 @@ public class HospitalManagementApplication {
 	
 	public float getTreatmentsIncome() {
 		float result=0;
-		for (Patient p : patients) {
-			for (MedicalRecord m : p.getMedicalRecords()) {
+		for (Person p : patients) {
+			for (MedicalRecord m : ((Patient) p).getMedicalRecords()) {
 				for (Treatment t : m.getTreatments()) {
 					result+=t.getCost();
 				}
@@ -398,9 +397,9 @@ public class HospitalManagementApplication {
 		return result;
 	}
 	public static void main(String[] args) {
-		ArrayList<Doctor> doctors = new ArrayList<Doctor>();
-		ArrayList<Patient> patients = new ArrayList<Patient>();
-		ArrayList<Nurse> nurses= new ArrayList<Nurse>();
+		ArrayList<Person> doctors = new ArrayList<Person>();
+		ArrayList<Person> patients = new ArrayList<Person>();
+		ArrayList<Person> nurses= new ArrayList<Person>();
 		new Populator(doctors, patients,nurses);
 
 		Scanner input = new Scanner(System.in);
@@ -429,9 +428,9 @@ public class HospitalManagementApplication {
 				System.out.print("Enter the SSN : ");
 				boolean found=false;
 				String ssn = input.nextLine();
-				for (Patient d : patients) {
+				for (Person d : patients) {
 					if (d.getSsn().equals(ssn)) {
-						d.displayMedicalRecords();
+						((Patient) d).displayMedicalRecords();
 						found=true;
 					}
 				}
@@ -476,9 +475,9 @@ public class HospitalManagementApplication {
 			}
 				break;
 			case 9: {
-				for (Patient patient : patients) {
+				for (Person patient : patients) {
 					System.out.println(patient);
-					System.out.println(patient.getMedicalRecords());
+					System.out.println(((Patient) patient).getMedicalRecords());
 				}
 			}
 				break;
@@ -488,11 +487,12 @@ public class HospitalManagementApplication {
 				break;
 			case 11: {
 				float totalSalaries=0;
-				for (Doctor d : doctors) {
-					totalSalaries+=d.getSalary();
+				for (Person d : doctors) {
+					totalSalaries+=((Doctor) d).getSalary();
 				}
 				
 				float delta = H.getTreatmentsIncome()-totalSalaries;
+				System.out.println(delta);
 			}
 				break;
 			case 12: {

@@ -16,7 +16,7 @@ public class Populator {
 	 * @param doctors
 	 * @param patients
 	 */
-	public  Populator(ArrayList<Doctor> doctors,ArrayList<Patient> patients,ArrayList<Nurse> nurses) {
+	public  Populator(ArrayList<Person> doctors,ArrayList<Person> patients,ArrayList<Person> nurses) {
 		
 		Date  date = null;
 		try {
