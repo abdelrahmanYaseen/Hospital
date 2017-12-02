@@ -32,12 +32,12 @@ public class Populator {
 		Junior j = new Junior(d,date,date,"1");
 		doctors.add(j);
 		ArrayList<Treatment> ta = new ArrayList<Treatment>();
-		Treatment t = new Treatment("Some details", "A describtive description", "some medication", "1", 2500, "Must");
+		Treatment t = new Treatment("Some details", "A describtive description", "some medication", "1", 2500, "Must","Not Covered");
 		ta.add(t);
 		MedicalRecord m = new MedicalRecord(date, ta);
 		ArrayList<MedicalRecord> ma = new ArrayList<MedicalRecord>();
 		ma.add(m);
-		Patient p = new Patient("3", "Darwish", "male", date, "full", 25, ma, date);
+		Patient p = new Patient("3", "Darwish", "male", date, "Not Covered", 25, ma, date);
 		patients.add(p);
 		Nurse n = new Nurse("4", "Berna", "Female", date, "Full", 250000, 25, "Nursing");
 		nurses.add(n);

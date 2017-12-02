@@ -62,7 +62,7 @@ public class MedicalRecord {
 	 * it also asks the user to enter the details of the treatments.
 	 * @return a list of records.
 	 */
-	public static ArrayList<MedicalRecord> requestMedicalRecord(HospitalManagementApplication H) {
+	public static ArrayList<MedicalRecord> requestMedicalRecord(HospitalManagementApplication H,String insuranceType) {
 		Scanner input = new Scanner(System.in);
 		ArrayList<MedicalRecord> medicalRecord = new ArrayList<MedicalRecord>();
 		int i=0;
@@ -70,7 +70,7 @@ public class MedicalRecord {
 		while(again && i<10) {
 			System.out.print("Enter the issueDate of the medical record :(dd-MM-yyy) ");
 			Date issueDate=Util.requestDate();
-			ArrayList<Treatment> treatment = Treatment.requestTreatment(H);
+			ArrayList<Treatment> treatment = Treatment.requestTreatment(H,insuranceType);
 			medicalRecord.add(new MedicalRecord(issueDate,treatment));
 			System.out.println(" Enter 1 To add another medical record, Or any other key to finsh. Then press <enter>");
 			again=Integer.parseInt(input.nextLine())==1;

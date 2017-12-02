@@ -16,6 +16,7 @@ public class Treatment {
 	private String doctorSSN;
 
 	private float cost;
+	private float moneyPaid;
 	private String type;
 	
 	/**
@@ -32,15 +33,16 @@ public class Treatment {
 	 * @param medication The medication used.
 	 * @param the ssn of the supervising doctor.
 	 */
-	public Treatment(String details, String description,String medication,String doctorSSN, float cost, String type) {
+	public Treatment(String details, String description,String medication,String doctorSSN, float cost, String type,String insuranceType) {
 		this.details=details;
 		this.description=description;
 		this.medication=medication;
 		this.doctorSSN=doctorSSN;
 		this.cost=cost;
 		this.type=type;
+		setMoneyPaid(insuranceType);
 	}
-	public Treatment(HospitalManagementApplication H) {
+	public Treatment(HospitalManagementApplication H,String insuranceType) {
 		Scanner input = new Scanner(System.in);
 		int i=0;
 		System.out.print("Enter the SSN of the supervising doctor: ");
@@ -53,10 +55,42 @@ public class Treatment {
 		this.medication = input.nextLine();
 		System.out.print("Enter the cost of the treatment: ");
 		this.cost = Float.parseFloat(input.nextLine());
-		System.out.print("Enter the type of the treatment: ");
-		this.type = input.nextLine();
+		System.out.print("Enter the type of the treatment (M)ust/(O)ptional - Default is optinal : ");
+		switch (input.nextLine()) {
+		case "M":
+			this.type="Must"; 
+			break;
+		default:
+			this.type="Optional";
+			break;
+		}
+		setMoneyPaid(insuranceType);
+		
 	}
 	
+	private void setMoneyPaid(String insuranceType) {
+		switch (insuranceType) {
+		case "Full":
+			moneyPaid=0;
+			break;
+		case "Partial":
+			moneyPaid=0;
+			if(type.equals("Optional")) {
+				moneyPaid=cost;
+			}
+			break;
+		default:
+			moneyPaid=cost;
+			break;
+		}
+	}
+	/**
+	 * @return the moneyPaid
+	 */
+	public float getMoneyPaid() {
+		return moneyPaid;
+	}
+
 	/**
 	 * This method is used to print the details of the treatment.
 	 */
@@ -73,13 +107,13 @@ public class Treatment {
 	 * it  the user to enter the details,description and the medication used in the treatments.
 	 * @return a list of treatments
 	 */
-	public static ArrayList<Treatment> requestTreatment(HospitalManagementApplication H) {
+	public static ArrayList<Treatment> requestTreatment(HospitalManagementApplication H,String insuranceType) {
 		Scanner input = new Scanner(System.in);
 		ArrayList<Treatment> treatments = new ArrayList<Treatment>();
 		int i=0;
 		boolean again=true;
 		while(again && i++<10) {
-			treatments.add(new Treatment(H));
+			treatments.add(new Treatment(H,insuranceType));
 			System.out.println("Enter 1 To add another Treatment to the current medical record\n Or  any other key to finsh. Then press <enter> key");
 			again=Integer.parseInt(input.nextLine())==1;
 		}

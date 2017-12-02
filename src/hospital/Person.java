@@ -25,8 +25,18 @@ public abstract class Person {
 		this.gender = input.nextLine();
 		System.out.print("Enter the date of birth (dd-MM-yyy) : ");
 		this.dateOfBirth=Util.requestDate();
-		System.out.print("Enter the insurance type: ");
-		this.insuranceType = input.nextLine();
+		System.out.print("Enter the insurance type (F)ull- (P)artial - (N)ot covered (The default is N):");		
+		switch (input.nextLine()) {
+		case "F":
+			this.insuranceType="Full";
+			break;
+		case "P":
+			this.insuranceType="Partial";
+			break;
+		default:
+			this.insuranceType="Not Covered";
+			break;
+		}
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Senior extends Doctor {
 	
 	private String employmentHistory;
-	
+//	private ArrayList<String> nurses;
 	public Senior(String ssn, String name, String gender, String insuranceType, Date dateOfBirth,
 			int availableLeaveDays, float salary, String departmentWorksIn, String specialization,String employmentHistory) {
 		super(ssn, name, gender, insuranceType, dateOfBirth, availableLeaveDays, salary, departmentWorksIn, specialization);

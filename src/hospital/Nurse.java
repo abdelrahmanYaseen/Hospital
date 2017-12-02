@@ -37,7 +37,8 @@ public class Nurse extends Person implements Employee {
 		this.availableLeaveDays=20;
 		this.salary = 100;
 		
-		
+		System.out.print("Enter the salary of this nurse : ");
+		this.salary = Float.parseFloat(input.nextLine());
 	}
 	
 	@Override

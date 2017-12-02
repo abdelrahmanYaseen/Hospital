@@ -50,7 +50,7 @@ public class Patient extends Person{
 		this.bloodPressure=Float.parseFloat(input.nextLine());
 		System.out.print("Enter the date of first visit to hospital: ");
 		this.firstVisitToHospital = Util.requestDate();
-		this.medicalRecords = MedicalRecord.requestMedicalRecord(h);
+		this.medicalRecords = MedicalRecord.requestMedicalRecord(h,this.insuranceType);
 	}
 	/**
 	 * This method is used to retrieve a list of the medical records of the patient.

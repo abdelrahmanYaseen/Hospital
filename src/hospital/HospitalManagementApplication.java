@@ -38,7 +38,7 @@ public class HospitalManagementApplication {
 		int option=-1;
 		while(!success) {
 			
-			System.out.println("--------------------------");
+			System.out.println("__________________________");
 			System.out.println("(  1 ) Add (Doctor,Patient,Nurse)");
 			System.out.println("(  2 ) Delete (Doctor,Patient,Nurse)");
 			System.out.println("(  3 ) Display Details (Doctor,Patient,Nurse)");
@@ -54,7 +54,7 @@ public class HospitalManagementApplication {
 			System.out.println("( 13 ) List All Patients");
 			System.out.println("( 14 ) List All Nurses");
 			System.out.println("( 15 ) Exit");
-			System.out.println("--------------------------");
+			System.out.println("__________________________");
 			System.out.print("Enter Option Number : ");
 			option = input.nextInt();
 			if (option > 0 && option < 16) {
@@ -66,6 +66,7 @@ public class HospitalManagementApplication {
 //		input.close();
 		return option;
 	}
+	
 /**
  * This method is used to add a new doctor, by asking the user for the required attributes.
  *
@@ -142,7 +143,7 @@ public class HospitalManagementApplication {
 			System.out.print("Enter 1 to display the details of doctor, 2 for patient, 3 for nurse");
 			option = Integer.parseInt(input.nextLine());
 			temp=false;
-		}while(!((option==1)||(option==2)||(option==3)));
+		} while(!((option==1)||(option==2)||(option==3)));
 		
 		String ssn;
 		switch (option) {
@@ -246,8 +247,6 @@ public class HospitalManagementApplication {
 			}
 			return null;
 	}
-	
-	
 /**
  * This method is used to delete a doctor.
  * It asks the user to provide the SSN number for the doctor who is needed to be deleted
@@ -367,6 +366,7 @@ public class HospitalManagementApplication {
 	 * it asks the user for the ssn of the patient of interest.
 	 * @return
 	 */
+	
 	private MedicalRecord requestLatestMedicalRecord() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Enter the SSN of the patient : ");
@@ -384,29 +384,30 @@ public class HospitalManagementApplication {
 		return null;
 	}
 	
+	
 	public float getTreatmentsIncome() {
 		float result=0;
 		for (Person p : patients) {
 			for (MedicalRecord m : ((Patient) p).getMedicalRecords()) {
 				for (Treatment t : m.getTreatments()) {
-					result+=t.getCost();
+					result+=t.getMoneyPaid();
 				}
 			}
 		}
-		
 		return result;
 	}
+	
+	public HospitalManagementApplication() {
+		this.doctors=new ArrayList<Person>();
+		this.patients=new ArrayList<Person>();
+		this.nurses=new ArrayList<Person>();
+		new Populator(this.doctors,this.patients,this.nurses);
+	}
+	
 	public static void main(String[] args) {
-		ArrayList<Person> doctors = new ArrayList<Person>();
-		ArrayList<Person> patients = new ArrayList<Person>();
-		ArrayList<Person> nurses= new ArrayList<Person>();
-		new Populator(doctors, patients,nurses);
-
-		Scanner input = new Scanner(System.in);
 		HospitalManagementApplication H = new HospitalManagementApplication();
-		H.doctors = doctors;
-		H.patients = patients;
-		H.nurses= nurses;
+		
+		Scanner input = new Scanner(System.in);
 		boolean run = true; 
 		while (run) {
 			int option = H.menu();
@@ -428,7 +429,7 @@ public class HospitalManagementApplication {
 				System.out.print("Enter the SSN : ");
 				boolean found=false;
 				String ssn = input.nextLine();
-				for (Person d : patients) {
+				for (Person d : H.patients) {
 					if (d.getSsn().equals(ssn)) {
 						((Patient) d).displayMedicalRecords();
 						found=true;
@@ -443,8 +444,8 @@ public class HospitalManagementApplication {
 				String ssn = input.nextLine();
 				Doctor d;
 				if((d=(Doctor) H.isExist(ssn,"Junior"))!=null) {
-					doctors.add(new Senior(d));
-					doctors.remove(d);
+					H.doctors.add(new Senior(d));
+					H.doctors.remove(d);
 					System.out.println("Promoted successfully.");
 				}
 			}
@@ -475,7 +476,7 @@ public class HospitalManagementApplication {
 			}
 				break;
 			case 9: {
-				for (Person patient : patients) {
+				for (Person patient : H.patients) {
 					System.out.println(patient);
 					System.out.println(((Patient) patient).getMedicalRecords());
 				}
@@ -487,24 +488,26 @@ public class HospitalManagementApplication {
 				break;
 			case 11: {
 				float totalSalaries=0;
-				for (Person d : doctors) {
-					totalSalaries+=((Doctor) d).getSalary();
+				for (Person d : H.doctors) {
+					totalSalaries+=((Doctor) d).salary();
 				}
-				
+				for (Person d : H.nurses) {
+					totalSalaries+=((Nurse) d).salary();
+				}
 				float delta = H.getTreatmentsIncome()-totalSalaries;
 				System.out.println(delta);
 			}
 				break;
 			case 12: {
-				System.out.println(doctors);
+				System.out.println(H.doctors);
 			}
 				break;
 			case 13: {
-				System.out.println(patients);
+				System.out.println(H.patients);
 			}
 				break;
 			case 14: {
-				System.out.println(nurses);
+				System.out.println(H.nurses);
 			}
 				break;
 			case 15: {
