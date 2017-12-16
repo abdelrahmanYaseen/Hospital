@@ -15,7 +15,9 @@ public class Patient extends Person{
 	 * All the medical records of the patient.
 	 */
 	private ArrayList<MedicalRecord> medicalRecords; 
-	
+	/**
+	 * This value represents the date of First visit for the patient to the hospital.
+	 */
 	private Date firstVisitToHospital;
 	/**
 	 * This method is used to construct a Patient Object.
@@ -32,6 +34,10 @@ public class Patient extends Person{
 			this.medicalRecords=medicalRecord;
 			this.firstVisitToHospital=firstVisitToHospital;
 	}
+	/**
+	 * This constructor asks the user to enter the necessary information for the patient.
+	 * @param h
+	 */
 	public Patient(HospitalManagementApplication h) {
 		super();
 		Scanner input = new Scanner(System.in);
@@ -51,6 +57,30 @@ public class Patient extends Person{
 		System.out.print("Enter the date of first visit to hospital: ");
 		this.firstVisitToHospital = Util.requestDate();
 		this.medicalRecords = MedicalRecord.requestMedicalRecord(h,this.insuranceType);
+	}
+	/**
+	 * @return the bloodPressure
+	 */
+	public float getBloodPressure() {
+		return bloodPressure;
+	}
+	/**
+	 * @param bloodPressure the bloodPressure to set
+	 */
+	public void setBloodPressure(float bloodPressure) {
+		this.bloodPressure = bloodPressure;
+	}
+	/**
+	 * @return the firstVisitToHospital
+	 */
+	public Date getFirstVisitToHospital() {
+		return firstVisitToHospital;
+	}
+	/**
+	 * @param firstVisitToHospital the firstVisitToHospital to set
+	 */
+	public void setFirstVisitToHospital(Date firstVisitToHospital) {
+		this.firstVisitToHospital = firstVisitToHospital;
 	}
 	/**
 	 * This method is used to retrieve a list of the medical records of the patient.
@@ -97,7 +127,11 @@ public class Patient extends Person{
 	 * @return
 	 */
 
-	
+	/**
+	 * This method is used to retrieve the medical records for the patient.
+	 * @param issuedate
+	 * @return the medical record
+	 */
 	public MedicalRecord getMedicalRecord(Date issuedate) {
 		for (MedicalRecord medicalRecord : medicalRecords) {
 			if(medicalRecord.getIssueDate().equals(issuedate)) {
@@ -120,7 +154,11 @@ public class Patient extends Person{
 		}
 		return tmp;
 	}
-	
+	/**
+	 * This method is used to get the department of the last treatment for the patient
+	 * @param hospital
+	 * @return the department
+	 */ 
 	public String getDepartment(HospitalManagementApplication h) {
 		ArrayList<Treatment> treatments=getLatestMedicalRecord().getTreatments();
 		Treatment lastTreatment =treatments.get(treatments.size()-1);

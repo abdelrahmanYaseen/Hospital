@@ -10,10 +10,21 @@ import java.util.Scanner;
  */
 public class Doctor extends Person implements Employee{
 
-	
+	/**
+	 * Represents the number of days available for the Employee to leave
+	 */
 	private int availableLeaveDays;
+	/**
+	 * Represents the salary of the employee
+	 */
 	private float salary;
+	/**
+	 * Represents the department that the employee works in
+	 */
 	private String departmentWorksIn;
+	/**
+	 * Represents the specialization of the employee
+	 */
 	private String specialization;
 	
 	/**
@@ -29,7 +40,18 @@ public class Doctor extends Person implements Employee{
 		this.salary = salary;
 	}
 	
-
+	/**
+	 * A constructor which accepts all the required fields as arguments
+	 * @param ssn
+	 * @param name
+	 * @param gender
+	 * @param insuranceType
+	 * @param dateOfBirth
+	 * @param availableLeaveDays
+	 * @param salary
+	 * @param departmentWorksIn
+	 * @param specialization
+	 */
 	public Doctor(String ssn,String name, String gender,String insuranceType, Date dateOfBirth,int availableLeaveDays,float salary, String departmentWorksIn, String specialization) {
 		super(ssn,name,gender,dateOfBirth,insuranceType);
 		
@@ -38,6 +60,10 @@ public class Doctor extends Person implements Employee{
 		this.departmentWorksIn=departmentWorksIn;
 		this.specialization=specialization;
 	}
+	/**
+	 * A constructor which asks the user to enter the required fields.
+	 * @param h
+	 */
 	public Doctor(HospitalManagementApplication h) {
 		super();
 		Scanner input = new Scanner(System.in);
@@ -50,15 +76,14 @@ public class Doctor extends Person implements Employee{
 			System.out.print("Enter the SSN of the doctor : ");
 			ssn = input.nextLine();
 			temp=false;
-		}while(h.isExist(ssn, "Doctor")!=null);
+		}while(!(h.isExist(ssn, "Doctor")==null && h.isExist(ssn, "Nurse")==null));
 		this.ssn=ssn;
 		System.out.print("Enter in which department does this doctor work : ");
 		this.departmentWorksIn = input.nextLine();
 		System.out.print("Enter the specialization of the doctor : ");
 		this.specialization = input.nextLine();
 		this.availableLeaveDays=25;
-		System.out.print("Enter the salary of this doctor : ");
-		this.salary = Float.parseFloat(input.nextLine());
+		
 	}
 	@Override
 	public String toString() {
@@ -75,23 +100,19 @@ public class Doctor extends Person implements Employee{
 
 		return salary;
 	}
-
+	
 	@Override
 	public int annualLeaveLeft() {
-		// TODO Auto-generated method stub
 		return availableLeaveDays;
 	}
-
+	
+	
 	@Override
 	public void goAnnualLeave(int numberOfDays) {
 		if(availableLeaveDays-numberOfDays > 0)
 			availableLeaveDays-=numberOfDays;
-	}
-	/**
-	 * @return the availableLeaveDays
-	 */
-	public int getAvailableLeaveDays() {
-		return availableLeaveDays;
+		else
+			System.out.println("Not available");
 	}
 	/**
 	 * @return the salary

@@ -42,6 +42,11 @@ public class Treatment {
 		this.type=type;
 		setMoneyPaid(insuranceType);
 	}
+	/**
+	 * this constructor asks the user to enter the necessary information for the treatment.
+	 * @param H
+	 * @param insuranceType
+	 */
 	public Treatment(HospitalManagementApplication H,String insuranceType) {
 		Scanner input = new Scanner(System.in);
 		int i=0;
@@ -121,8 +126,89 @@ public class Treatment {
 		return treatments;
 	}
 
+	/**
+	 * This method is used to retrieve the cost of the treatment.
+	 * @return
+	 */
 	public float getCost() {
 		return this.cost;
+	}
+
+	/**
+	 * @return the details
+	 */
+	public String getDetails() {
+		return details;
+	}
+
+	/**
+	 * @param details the details to set
+	 */
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return the medication
+	 */
+	public String getMedication() {
+		return medication;
+	}
+
+	/**
+	 * @param medication the medication to set
+	 */
+	public void setMedication(String medication) {
+		this.medication = medication;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
+	 * @param doctorSSN the doctorSSN to set
+	 */
+	public void setDoctorSSN(String doctorSSN) {
+		this.doctorSSN = doctorSSN;
+	}
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(float cost) {
+		this.cost = cost;
+	}
+
+	/**
+	 * @param moneyPaid the moneyPaid to set
+	 */
+	public void setMoneyPaid(float moneyPaid) {
+		this.moneyPaid = moneyPaid;
 	}
 	
 	

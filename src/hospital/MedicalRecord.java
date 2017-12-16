@@ -79,4 +79,16 @@ public class MedicalRecord {
 		//input.close();
 		return medicalRecord;
 	}
+	/**
+	 * @param issueDate the issueDate to set
+	 */
+	public void setIssueDate(Date issueDate) {
+		this.issueDate = issueDate;
+	}
+	/**
+	 * @param treatments the treatments to set
+	 */
+	public void setTreatments(ArrayList<Treatment> treatments) {
+		this.treatments = treatments;
+	}
 }

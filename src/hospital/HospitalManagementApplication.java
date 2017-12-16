@@ -25,13 +25,26 @@ public class HospitalManagementApplication {
 	 * This field is used to store all the patients with their information.
 	 */
 	public ArrayList<Person> patients= new ArrayList<Person>();
-	
+	/**
+	 * This field is used to store all the nurses with their information.
+	 */
 	public ArrayList<Person> nurses = new ArrayList<Person>();
 	
-/**
- * Displays the Menu for the user
- * @return integer value that represents the option which is chosen by the user.
- */
+	/**
+	 * The constructor of the application.
+	 * it initializes the lists and calls the populator.
+	 */
+	public HospitalManagementApplication() {
+		this.doctors=new ArrayList<Person>();
+		this.patients=new ArrayList<Person>();
+		this.nurses=new ArrayList<Person>();
+		new Populator(this.doctors,this.patients,this.nurses);
+	}
+	
+	/**
+	 * Displays the Menu for the user
+	 * @return integer value that represents the option which is chosen by the user.
+	 */
 	public  int menu() {
 		Scanner input = new Scanner(System.in);
 		boolean success=false;
@@ -53,11 +66,12 @@ public class HospitalManagementApplication {
 			System.out.println("( 12 ) List All Doctors");
 			System.out.println("( 13 ) List All Patients");
 			System.out.println("( 14 ) List All Nurses");
-			System.out.println("( 15 ) Exit");
+			System.out.println("( 15 ) Go for a leave");
+			System.out.println("( 16 ) Exit");
 			System.out.println("__________________________");
 			System.out.print("Enter Option Number : ");
 			option = input.nextInt();
-			if (option > 0 && option < 16) {
+			if (option > 0 && option < 17) {
 				success=true;
 			} else {
 				System.out.println("Error");
@@ -67,11 +81,9 @@ public class HospitalManagementApplication {
 		return option;
 	}
 	
-/**
- * This method is used to add a new doctor, by asking the user for the required attributes.
- *
- */
-	
+	/**
+	 * This method is used to add a new doctor,patient or nurse , by asking the user for the required attributes.
+	 */
 	public void add() {
 		Scanner input = new Scanner(System.in);
 		int option;
@@ -102,6 +114,51 @@ public class HospitalManagementApplication {
 //		input.close();
 	}
 	
+	/**
+	 * @return the doctors
+	 */
+	public ArrayList<Person> getDoctors() {
+		return doctors;
+	}
+
+	/**
+	 * @param doctors the doctors to set
+	 */
+	public void setDoctors(ArrayList<Person> doctors) {
+		this.doctors = doctors;
+	}
+
+	/**
+	 * @return the patients
+	 */
+	public ArrayList<Person> getPatients() {
+		return patients;
+	}
+
+	/**
+	 * @param patients the patients to set
+	 */
+	public void setPatients(ArrayList<Person> patients) {
+		this.patients = patients;
+	}
+
+	/**
+	 * @return the nurses
+	 */
+	public ArrayList<Person> getNurses() {
+		return nurses;
+	}
+
+	/**
+	 * @param nurses the nurses to set
+	 */
+	public void setNurses(ArrayList<Person> nurses) {
+		this.nurses = nurses;
+	}
+
+	/**
+	 * This method is used to delete a doctor,patient or nurse , given the ssn.
+	 */
 	public void delete() {
 		Scanner input = new Scanner(System.in);
 		int option;
@@ -132,10 +189,13 @@ public class HospitalManagementApplication {
 //		input.close();
 	}
 	
+	/**
+	 * This method is used to print the details of the patient, doctor, or nurse 
+	 */
 	public void details() {
 		Scanner input = new Scanner(System.in);
 		int option;
-		boolean temp=true;
+		boolean temp=true; 	
 		do {
 			if(!temp) {
 				System.out.println("Choose either 1, 2, or 3");
@@ -170,26 +230,35 @@ public class HospitalManagementApplication {
 //		input.close();
 	}
 	
+	/**
+	 * This method is used to ask the user to enter the required info to add a doctor to the hospital
+	 */
 	public void addDoctor() {
 
 		Scanner input = new Scanner(System.in);
 		Doctor doctor= new Doctor(this);
-		
+		boolean valid = false;
 		System.out.println("Is this a senior or junior ? (S/J) Default is Senior");
 		String option=input.nextLine();
+		Float salary;
 		switch (option) {
 		case "J":
+			
+				doctor.setSalary(Util.requestSalaryWithRange(5000, 10000));
 				doctors.add(new Junior(doctor,this));
 			break; 
 		default:
-			doctors.add(new Senior(doctor));
+			doctor.setSalary(Util.requestSalaryWithRange(10000, 20000));
+			doctors.add(new Senior(doctor,this));
 			break;
 		}
-		//doctors.add(doctor);
 		System.out.println("Added successfully.");
 		
 	}
 	
+	/**
+	 * This method is used to ask the user to enter the required info to add a nurse to the hospital
+	 */
 	public void addNurse() {
 
 		Nurse nurse = new Nurse(this);
@@ -204,7 +273,6 @@ public class HospitalManagementApplication {
 	 * This method is used to add a new patient.
 	 * It asks the user to enter the necessary information.
 	 */
-	
 	public void addPatient() {
 		Patient p = new Patient(this);
 		patients.add(p);
@@ -285,6 +353,10 @@ public class HospitalManagementApplication {
 		System.out.println("Not Found");
 	}
 	
+	/**
+	 * This method is used to delete a nurse.
+	 * It asks the user to enter the SSN for the nurse that is to be deleted.
+	 */
 	public  void deleteNurse() {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter the SSN of the nurse : ");
@@ -326,6 +398,11 @@ public class HospitalManagementApplication {
 		return "Not Found";
 	}
 
+	/**
+	 * This method is used to retrieve the details of the Nurse
+	 * @param SSN, the social security number  of the nurse of interest
+	 * @return a string of the details of the nurse if it is found.
+	 */
 	public String getNurseDetails(String ssn) {
 		for(Person d : nurses) {
 			if(d.getSsn().equals(ssn))
@@ -347,15 +424,15 @@ public class HospitalManagementApplication {
 		return "Not Found";
 	}
 
-/**
- * This method is used to print all the doctors registered.
- */
+	/**
+	 * 	This method is used to print all the doctors registered.
+	 */
 	public  void listDoctors() {
 		System.out.println(doctors);
 	}
-/**
- * This method is used to print all the patients registered.
- */
+	/**
+	 * This method is used to print all the patients registered.
+	 */
 	public  void listPatients() {
 		System.out.println(patients);
 	}
@@ -384,7 +461,13 @@ public class HospitalManagementApplication {
 		return null;
 	}
 	
-	
+	/**
+	 * This method is used to calculate the total income of the treatments
+	 * it goes through the list of patients and checks the costs
+	 * maintaining the constrains of the type of the treatment and the 
+	 * insurance type of the patient
+	 * @return The total income of the treatments
+	 */
 	public float getTreatmentsIncome() {
 		float result=0;
 		for (Person p : patients) {
@@ -397,12 +480,6 @@ public class HospitalManagementApplication {
 		return result;
 	}
 	
-	public HospitalManagementApplication() {
-		this.doctors=new ArrayList<Person>();
-		this.patients=new ArrayList<Person>();
-		this.nurses=new ArrayList<Person>();
-		new Populator(this.doctors,this.patients,this.nurses);
-	}
 	
 	public static void main(String[] args) {
 		HospitalManagementApplication H = new HospitalManagementApplication();
@@ -441,24 +518,13 @@ public class HospitalManagementApplication {
 			case 5: {// Promote Junior to Senior
 //				Scanner input = new Scanner(System.in);
 				System.out.println("Enter the ssn of the junior doctor to promote:");
-				String ssn = input.nextLine();
-				Doctor d;
-				if((d=(Doctor) H.isExist(ssn,"Junior"))!=null) {
-					H.doctors.add(new Senior(d));
-					H.doctors.remove(d);
-					System.out.println("Promoted successfully.");
-				}
+				H.getPromoted(input.nextLine());
+				
 			}
 				break;
 			case 6: {// display patient department ( dep of latest treatment )
 				System.out.println("Enter the ssn of the patient :");
-				String ssn=input.nextLine();
-				Patient p;
-				if((p=(Patient)H.isExist(ssn, "Patient"))!=null) {
-					System.out.println(p.getDepartment(H));
-				} else {
-					System.out.println("Not found");
-				}
+				H.getPatientDept(input.nextLine());
 			}
 				break;
 			case 7: {
@@ -487,14 +553,7 @@ public class HospitalManagementApplication {
 			}
 				break;
 			case 11: {
-				float totalSalaries=0;
-				for (Person d : H.doctors) {
-					totalSalaries+=((Doctor) d).salary();
-				}
-				for (Person d : H.nurses) {
-					totalSalaries+=((Nurse) d).salary();
-				}
-				float delta = H.getTreatmentsIncome()-totalSalaries;
+				float delta = H.getBudgetStatus();
 				System.out.println(delta);
 			}
 				break;
@@ -511,17 +570,79 @@ public class HospitalManagementApplication {
 			}
 				break;
 			case 15: {
+				System.out.println("Enter the ssn for the employee who want to leave : ");
+				String Ssn = input.nextLine();
+				System.out.println("Enter the number of days :");
+				int days = Integer.parseInt(input.nextLine());
+				H.goAnnualLeave(Ssn, days);
+				
+			}
+			break;
+			case 16: {
 				run=false;
 			}
 				break;
-
 			default:
 				input.close();
 				break;
 			}
 		}
-		// System.out.println(patients);
 	}
+	
+	/**
+	 * This method is used to calculate the budget of the hospital
+	 * by taking the difference between the treatments' income and the 
+	 * salaries that the hospital has to pay.
+	 * @return
+	 */
+	private float getBudgetStatus() {
+		float totalSalaries=0;
+		for (Person d : this.doctors) {
+			totalSalaries+=((Doctor) d).salary();
+		}
+		for (Person d : this.nurses) {
+			totalSalaries+=((Nurse) d).salary();
+		}
+		float delta = this.getTreatmentsIncome()-totalSalaries;
+		return delta;
+	}
+
+	/**
+	 * This method is responsible of displaying the department of the patient.
+	 * specifically the department of the last treatment.
+	 * @param ssn
+	 */
+	private void getPatientDept(String ssn) {
+		Patient p;
+		if((p=(Patient)this.isExist(ssn, "Patient"))!=null) {
+			System.out.println(p.getDepartment(this));
+		} else {
+			System.out.println("Not found");
+		}
+		
+	}
+
+	/**
+	 * This method is used to promote a junior doctor to be senior
+	 * @param ssn of the junior
+	 */
+	private void getPromoted(String ssn) {
+		Doctor d;
+		Scanner input = new Scanner(System.in);
+		if((d=(Doctor) this.isExist(ssn,"Junior"))!=null) {
+			System.out.println("Enter the new salary :");
+			d.setSalary(Float.parseFloat(input.nextLine()));
+			this.doctors.add(new Senior(d,this));
+			this.doctors.remove(d);
+			System.out.println("Promoted successfully.");
+		}
+		
+	}
+
+	/**
+	 * This function returns the available leave days for nurses and doctors 
+	 * @return number of available leave days.
+	 */
 	public int getLeaveDays() {
 		Scanner input = new Scanner(System.in);
 		int option;
@@ -559,6 +680,25 @@ public class HospitalManagementApplication {
 		return -1;
 	}
 	
-
-
+	/**
+	 * This method is used when the employee asks for a leave.
+	 * it subtracts the number of days from the available leave days.
+	 * @param ssn
+	 * @param noDays
+	 */
+	public void goAnnualLeave(String ssn, int noDays) {
+		Doctor d;Nurse n;
+		if((d=(Doctor)this.isExist(ssn, "Doctor"))!=null) {
+			d.goAnnualLeave(noDays);
+			System.out.println("Available leave days :"+d.annualLeaveLeft());
+			
+		} else if((n=(Nurse)this.isExist(ssn, "Nurse"))!=null) {
+			n.goAnnualLeave(noDays);
+			System.out.println("Available leave days :"+n.annualLeaveLeft());
+		} else {
+			System.out.println("Not found");
+		}
+		
+	}
 }
+
